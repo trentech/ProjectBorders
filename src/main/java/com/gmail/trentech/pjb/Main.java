@@ -11,7 +11,6 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 
 import com.gmail.trentech.pjb.commands.CommandManager;
-import com.gmail.trentech.pjb.utils.ConfigManager;
 import com.gmail.trentech.pjb.utils.Resource;
 
 import me.flibio.updatifier.Updatifier;
@@ -35,7 +34,7 @@ public class Main {
     public void onInitialization(GameInitializationEvent event) {   	
     	getGame().getCommandManager().register(this, new CommandManager().cmdBorder, "border", "b");
     	
-    	new ConfigManager().init();
+    	//new ConfigManager().init();
     }
 
     public static Logger getLog() {
