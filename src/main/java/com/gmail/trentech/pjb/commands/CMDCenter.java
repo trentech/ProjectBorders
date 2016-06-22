@@ -27,87 +27,87 @@ public class CMDCenter implements CommandExecutor {
 		help.setExample(" /border center MyWorld 100 -250");
 		help.save();
 	}
-	
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!args.hasAny("world")) {
+		if (!args.hasAny("world")) {
 			src.sendMessage(invalidArg());
 			return CommandResult.empty();
 		}
-		String worldName = args.<String>getOne("world").get();
-		
-		if(worldName.equalsIgnoreCase("@w") && src instanceof Player) {
+		String worldName = args.<String> getOne("world").get();
+
+		if (worldName.equalsIgnoreCase("@w") && src instanceof Player) {
 			worldName = ((Player) src).getWorld().getName();
 		}
-		
+
 		Optional<WorldProperties> optionalProperties = Main.getGame().getServer().getWorldProperties(worldName);
-		
-		if(!optionalProperties.isPresent()) {
+
+		if (!optionalProperties.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " does not exist"));
 			return CommandResult.empty();
 		}
 		WorldProperties properties = optionalProperties.get();
-		
+
 		Optional<World> optionalWorld = Main.getGame().getServer().getWorld(properties.getUniqueId());
-		
-		if(!optionalWorld.isPresent()) {
+
+		if (!optionalWorld.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " must be loaded"));
 			return CommandResult.empty();
 		}
 		World world = optionalWorld.get();
-		
+
 		WorldBorder border = world.getWorldBorder();
-		
-		if(!args.hasAny("x")) {
+
+		if (!args.hasAny("x")) {
 			src.sendMessage(invalidArg());
 			return CommandResult.empty();
 		}
-		String xArg = args.<String>getOne("x").get();
-		
+		String xArg = args.<String> getOne("x").get();
+
 		double x;
 		double z;
-		
-		if(xArg.equalsIgnoreCase("@p") && src instanceof Player) {
+
+		if (xArg.equalsIgnoreCase("@p") && src instanceof Player) {
 			Location<World> location = ((Player) src).getLocation();
-			
+
 			x = location.getX();
 			z = location.getZ();
-		}else {
-			try{
-				x = Double.parseDouble(args.<String>getOne("x").get());
-			}catch(Exception e) {
+		} else {
+			try {
+				x = Double.parseDouble(args.<String> getOne("x").get());
+			} catch (Exception e) {
 				src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid number"));
 				src.sendMessage(invalidArg());
 				return CommandResult.empty();
 			}
 
-			if(!args.hasAny("z")) {
+			if (!args.hasAny("z")) {
 				src.sendMessage(invalidArg());
 				return CommandResult.empty();
-			}		
-			
-			try{
-				z = Double.parseDouble(args.<String>getOne("z").get());
-			}catch(Exception e) {
+			}
+
+			try {
+				z = Double.parseDouble(args.<String> getOne("z").get());
+			} catch (Exception e) {
 				src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid number"));
 				src.sendMessage(invalidArg());
 				return CommandResult.empty();
 			}
 		}
-		
+
 		border.setCenter(x, z);
 
 		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set center of ", worldName, " to x: ", x, " z: ", z));
-		
+
 		return CommandResult.success();
 	}
-	
+
 	private Text invalidArg() {
 		Text t1 = Text.of(TextColors.YELLOW, "/border center ");
 		Text t2 = Text.builder().color(TextColors.YELLOW).onHover(TextActions.showText(Text.of("Enter world name"))).append(Text.of("<world> ")).build();
 		Text t3 = Text.builder().color(TextColors.YELLOW).onHover(TextActions.showText(Text.of("Enter x coordinate"))).append(Text.of("<x> ")).build();
 		Text t4 = Text.builder().color(TextColors.YELLOW).onHover(TextActions.showText(Text.of("Enter z coordinate"))).append(Text.of("<z>")).build();
-		
-		return Text.of(t1,t2,t3,t4);
+
+		return Text.of(t1, t2, t3, t4);
 	}
 }

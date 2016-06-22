@@ -26,56 +26,56 @@ public class CMDDamage implements CommandExecutor {
 		help.setExample(" /border damage MyWorld 50\n /border diameter MyWorld 50 2");
 		help.save();
 	}
-	
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!args.hasAny("world")) {
+		if (!args.hasAny("world")) {
 			src.sendMessage(invalidArg());
 			return CommandResult.empty();
 		}
-		String worldName = args.<String>getOne("world").get();
-		
-		if(worldName.equalsIgnoreCase("@w") && src instanceof Player) {
+		String worldName = args.<String> getOne("world").get();
+
+		if (worldName.equalsIgnoreCase("@w") && src instanceof Player) {
 			worldName = ((Player) src).getWorld().getName();
 		}
-		
+
 		Optional<WorldProperties> optionalProperties = Main.getGame().getServer().getWorldProperties(worldName);
-		
-		if(!optionalProperties.isPresent()) {
+
+		if (!optionalProperties.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " does not exist"));
 			return CommandResult.empty();
 		}
 		WorldProperties properties = optionalProperties.get();
-		
+
 		Optional<World> optionalWorld = Main.getGame().getServer().getWorld(properties.getUniqueId());
-		
-		if(!optionalWorld.isPresent()) {
+
+		if (!optionalWorld.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " must be loaded"));
 			return CommandResult.empty();
 		}
 		World world = optionalWorld.get();
-		
+
 		WorldBorder border = world.getWorldBorder();
-		
-		if(!args.hasAny("distance")) {
+
+		if (!args.hasAny("distance")) {
 			src.sendMessage(invalidArg());
 			return CommandResult.empty();
 		}
-		
+
 		double distance;
-		try{
-			distance = Double.parseDouble(args.<String>getOne("distance").get());
-		}catch(Exception e) {
+		try {
+			distance = Double.parseDouble(args.<String> getOne("distance").get());
+		} catch (Exception e) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid number"));
 			src.sendMessage(invalidArg());
 			return CommandResult.empty();
 		}
 
 		double damage = 0;
-		if(args.hasAny("damage")) {
-			try{
-				damage = Long.parseLong(args.<String>getOne("damage").get());
-			}catch(Exception e) {
+		if (args.hasAny("damage")) {
+			try {
+				damage = Long.parseLong(args.<String> getOne("damage").get());
+			} catch (Exception e) {
 				src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid number"));
 				src.sendMessage(invalidArg());
 				return CommandResult.empty();
@@ -83,8 +83,8 @@ public class CMDDamage implements CommandExecutor {
 		}
 
 		border.setDamageThreshold(distance);
-		
-		if(damage != 0) {
+
+		if (damage != 0) {
 			border.setDamageAmount(damage);
 			src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set border damage of ", worldName, " to distance: ", distance, " amount: ", damage));
 		} else {
@@ -99,7 +99,7 @@ public class CMDDamage implements CommandExecutor {
 		Text t2 = Text.builder().color(TextColors.YELLOW).onHover(TextActions.showText(Text.of("Enter world name"))).append(Text.of("<world> ")).build();
 		Text t3 = Text.builder().color(TextColors.YELLOW).onHover(TextActions.showText(Text.of("Enter border threshold player begins taking damage"))).append(Text.of("<distance> ")).build();
 		Text t4 = Text.builder().color(TextColors.YELLOW).onHover(TextActions.showText(Text.of("Enter amount of damage player will take"))).append(Text.of("[damage]")).build();
-		
-		return Text.of(t1,t2,t3,t4);
+
+		return Text.of(t1, t2, t3, t4);
 	}
 }

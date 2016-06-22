@@ -14,29 +14,29 @@ public class ConfigManager {
 	private File file;
 	private CommentedConfigurationNode config;
 	private ConfigurationLoader<CommentedConfigurationNode> loader;
-	
+
 	public ConfigManager(String configName) {
 		String folder = "config" + File.separator + "projectborders";
-        if (!new File(folder).isDirectory()) {
-        	new File(folder).mkdirs();
-        }
+		if (!new File(folder).isDirectory()) {
+			new File(folder).mkdirs();
+		}
 		file = new File(folder, configName);
-		
+
 		create();
 		load();
 	}
-	
+
 	public ConfigManager() {
 		String folder = "config" + File.separator + "projectborders";
-        if (!new File(folder).isDirectory()) {
-        	new File(folder).mkdirs();
-        }
+		if (!new File(folder).isDirectory()) {
+			new File(folder).mkdirs();
+		}
 		file = new File(folder, "config.conf");
-		
+
 		create();
 		load();
 	}
-	
+
 	public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
 		return loader;
 	}
@@ -53,26 +53,26 @@ public class ConfigManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void init() {
-		if(file.getName().equalsIgnoreCase("config.conf")) {
+		if (file.getName().equalsIgnoreCase("config.conf")) {
 
 		}
 		save();
 	}
 
 	private void create() {
-		if(!file.exists()) {
+		if (!file.exists()) {
 			try {
 				Main.getLog().info("Creating new " + file.getName() + " file...");
-				file.createNewFile();		
-			} catch (IOException e) {				
+				file.createNewFile();
+			} catch (IOException e) {
 				Main.getLog().error("Failed to create new config file");
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	private void load() {
 		loader = HoconConfigurationLoader.builder().setFile(file).build();
 		try {

@@ -26,46 +26,46 @@ public class CMDDiameter implements CommandExecutor {
 		help.setExample(" /border diameter MyWorld 5000\n /border diameter MyWorld 5000 60\n /border diameter MyWorld 5000 120 1000");
 		help.save();
 	}
-	
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!args.hasAny("world")) {
+		if (!args.hasAny("world")) {
 			src.sendMessage(invalidArg());
 			return CommandResult.empty();
 		}
-		String worldName = args.<String>getOne("world").get();
-		
-		if(worldName.equalsIgnoreCase("@w") && src instanceof Player) {
+		String worldName = args.<String> getOne("world").get();
+
+		if (worldName.equalsIgnoreCase("@w") && src instanceof Player) {
 			worldName = ((Player) src).getWorld().getName();
 		}
-		
+
 		Optional<WorldProperties> optionalProperties = Main.getGame().getServer().getWorldProperties(worldName);
-		
-		if(!optionalProperties.isPresent()) {
+
+		if (!optionalProperties.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " does not exist"));
 			return CommandResult.empty();
 		}
 		WorldProperties properties = optionalProperties.get();
-		
+
 		Optional<World> optionalWorld = Main.getGame().getServer().getWorld(properties.getUniqueId());
-		
-		if(!optionalWorld.isPresent()) {
+
+		if (!optionalWorld.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " must be loaded"));
 			return CommandResult.empty();
 		}
 		World world = optionalWorld.get();
-		
+
 		WorldBorder border = world.getWorldBorder();
-		
-		if(!args.hasAny("startDiameter")) {
+
+		if (!args.hasAny("startDiameter")) {
 			src.sendMessage(invalidArg());
 			return CommandResult.empty();
 		}
-		
+
 		double startDiameter;
-		try{
-			startDiameter = Double.parseDouble(args.<String>getOne("startDiameter").get());
-		}catch(Exception e) {
+		try {
+			startDiameter = Double.parseDouble(args.<String> getOne("startDiameter").get());
+		} catch (Exception e) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid number"));
 			src.sendMessage(invalidArg());
 			return CommandResult.empty();
@@ -73,19 +73,19 @@ public class CMDDiameter implements CommandExecutor {
 
 		long time = 0;
 		double endDiameter = 0;
-		if(args.hasAny("time")) {
-			try{
-				time = Long.parseLong(args.<String>getOne("time").get()) * 1000;
-			}catch(Exception e) {
+		if (args.hasAny("time")) {
+			try {
+				time = Long.parseLong(args.<String> getOne("time").get()) * 1000;
+			} catch (Exception e) {
 				src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid number"));
 				src.sendMessage(invalidArg());
 				return CommandResult.empty();
 			}
-			
-			if(args.hasAny("endDiameter")) {
-				try{
-					endDiameter = Double.parseDouble(args.<String>getOne("endDiameter").get());
-				}catch(Exception e) {
+
+			if (args.hasAny("endDiameter")) {
+				try {
+					endDiameter = Double.parseDouble(args.<String> getOne("endDiameter").get());
+				} catch (Exception e) {
 					src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid number"));
 					src.sendMessage(invalidArg());
 					return CommandResult.empty();
@@ -93,15 +93,15 @@ public class CMDDiameter implements CommandExecutor {
 			}
 		}
 
-		if(time != 0) {
-			if(endDiameter != 0) {
+		if (time != 0) {
+			if (endDiameter != 0) {
 				border.setDiameter(startDiameter, endDiameter, time);
 				src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set diameter of ", worldName, " to start: ", startDiameter, "end: ", endDiameter, " time: ", time));
-			}else {
+			} else {
 				border.setDiameter(startDiameter, time);
 				src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set diameter of ", worldName, " to start: ", startDiameter, " time: ", time));
 			}
-		}else {
+		} else {
 			border.setDiameter(startDiameter);
 			src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set diameter of ", worldName, " to ", startDiameter));
 		}
@@ -115,7 +115,7 @@ public class CMDDiameter implements CommandExecutor {
 		Text t3 = Text.builder().color(TextColors.YELLOW).onHover(TextActions.showText(Text.of("Enter start diameter"))).append(Text.of("<startDiameter> ")).build();
 		Text t4 = Text.builder().color(TextColors.YELLOW).onHover(TextActions.showText(Text.of("Enter time in seconds it takes, to expand/contract border"))).append(Text.of("[<time> ")).build();
 		Text t5 = Text.builder().color(TextColors.YELLOW).onHover(TextActions.showText(Text.of("Enter end diameter border will expand/contract to"))).append(Text.of("[endDiameter]]")).build();
-		
-		return Text.of(t1,t2,t3,t4,t5);
+
+		return Text.of(t1, t2, t3, t4, t5);
 	}
 }
