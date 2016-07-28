@@ -48,6 +48,13 @@ public class CommandManager {
 		    .executor(new CMDWarning())
 		    .build();
 	
+	private CommandSpec cmdInfo = CommandSpec.builder()
+		    .description(Text.of(" Shows border information"))
+		    .permission("pjb.cmd.border.info")
+		    .arguments(GenericArguments.optional(GenericArguments.string(Text.of("world"))))
+		    .executor(new CMDInfo())
+		    .build();
+	
 	public CommandSpec cmdBorder = CommandSpec.builder()
 		    .description(Text.of(" Simple world border management"))
 		    .permission("pjb.cmd.border")
@@ -56,6 +63,7 @@ public class CommandManager {
 		    .child(cmdDiameter, "diameter", "d")
 		    .child(cmdGenerate, "generate", "g")
 		    .child(cmdWarning, "warning", "w")
+		    .child(cmdInfo, "info", "i")
 		    .executor(new CMDBorder())
 		    .build();
 }

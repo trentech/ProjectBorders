@@ -36,6 +36,9 @@ public class CMDBorder implements CommandExecutor {
 		if (src.hasPermission("pjb.cmd.border.generate")) {
 			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("generate"))).append(Text.of(" /border generate")).build());
 		}
+		if (src.hasPermission("pjb.cmd.border.info")) {
+			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("info"))).append(Text.of(" /border info")).build());
+		}
 		if (src.hasPermission("pjb.cmd.border.warning")) {
 			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("warning"))).append(Text.of(" /border warning")).build());
 		}
