@@ -2,6 +2,7 @@ package com.gmail.trentech.pjb.commands;
 
 import java.util.Optional;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -15,7 +16,6 @@ import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.WorldBorder;
 import org.spongepowered.api.world.storage.WorldProperties;
 
-import com.gmail.trentech.pjb.Main;
 import com.gmail.trentech.pjb.utils.Help;
 
 public class CMDDiameter implements CommandExecutor {
@@ -39,7 +39,7 @@ public class CMDDiameter implements CommandExecutor {
 			worldName = ((Player) src).getWorld().getName();
 		}
 
-		Optional<WorldProperties> optionalProperties = Main.getGame().getServer().getWorldProperties(worldName);
+		Optional<WorldProperties> optionalProperties = Sponge.getServer().getWorldProperties(worldName);
 
 		if (!optionalProperties.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " does not exist"));
@@ -47,7 +47,7 @@ public class CMDDiameter implements CommandExecutor {
 		}
 		WorldProperties properties = optionalProperties.get();
 
-		Optional<World> optionalWorld = Main.getGame().getServer().getWorld(properties.getUniqueId());
+		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " must be loaded"));

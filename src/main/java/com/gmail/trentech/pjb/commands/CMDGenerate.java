@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -58,14 +59,14 @@ public class CMDGenerate implements CommandExecutor {
 		}
 
 		if (list.containsKey(worldName.get())) {
-			if (Main.getGame().getScheduler().getScheduledTasks(Main.getPlugin()).contains(list.get(worldName.get()))) {
+			if (Sponge.getScheduler().getScheduledTasks(Main.getPlugin()).contains(list.get(worldName.get()))) {
 				src.sendMessage(Text.of(TextColors.YELLOW, "Pre-Generator already running for this world"));
 				return CommandResult.empty();
 			}
 			list.remove(worldName.get());
 		}
 
-		Optional<WorldProperties> optionalProperties = Main.getGame().getServer().getWorldProperties(worldName.get());
+		Optional<WorldProperties> optionalProperties = Sponge.getServer().getWorldProperties(worldName.get());
 
 		if (!optionalProperties.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName.get(), " does not exist"));
@@ -73,7 +74,7 @@ public class CMDGenerate implements CommandExecutor {
 		}
 		WorldProperties properties = optionalProperties.get();
 
-		Optional<World> optionalWorld = Main.getGame().getServer().getWorld(properties.getUniqueId());
+		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName.get(), " must be loaded"));
@@ -145,8 +146,8 @@ public class CMDGenerate implements CommandExecutor {
 	}
 
 	private void status(CommandSource src, Task task) {
-		Main.getGame().getScheduler().createTaskBuilder().delayTicks(100).execute(c -> {
-			if (!Main.getGame().getScheduler().getScheduledTasks(Main.getPlugin()).contains(task)) {
+		Sponge.getScheduler().createTaskBuilder().delayTicks(100).execute(c -> {
+			if (!Sponge.getScheduler().getScheduledTasks(Main.getPlugin()).contains(task)) {
 				src.sendMessage(Text.of(TextColors.DARK_GREEN, "Pre-Generator finished"));
 			} else {
 				status(src, task);

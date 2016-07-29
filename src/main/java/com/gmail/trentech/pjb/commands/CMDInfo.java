@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -20,7 +21,6 @@ import org.spongepowered.api.world.WorldBorder;
 import org.spongepowered.api.world.storage.WorldProperties;
 
 import com.flowpowered.math.vector.Vector3d;
-import com.gmail.trentech.pjb.Main;
 import com.gmail.trentech.pjb.utils.Help;
 
 public class CMDInfo implements CommandExecutor {
@@ -44,7 +44,7 @@ public class CMDInfo implements CommandExecutor {
 			worldName = ((Player) src).getWorld().getName();
 		}
 
-		Optional<WorldProperties> optionalProperties = Main.getGame().getServer().getWorldProperties(worldName);
+		Optional<WorldProperties> optionalProperties = Sponge.getServer().getWorldProperties(worldName);
 
 		if (!optionalProperties.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " does not exist"));
@@ -52,7 +52,7 @@ public class CMDInfo implements CommandExecutor {
 		}
 		WorldProperties properties = optionalProperties.get();
 
-		Optional<World> optionalWorld = Main.getGame().getServer().getWorld(properties.getUniqueId());
+		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " must be loaded"));
@@ -87,7 +87,7 @@ public class CMDInfo implements CommandExecutor {
 		list.add(Text.of(TextColors.GREEN, "Damage Threshold: ", TextColors.WHITE, border.getDamageThreshold()));
 		
 		if (src instanceof Player) {
-			PaginationList.Builder pages = Main.getGame().getServiceManager().provide(PaginationService.class).get().builder();
+			PaginationList.Builder pages = Sponge.getServiceManager().provide(PaginationService.class).get().builder();
 
 			pages.title(Text.builder().color(TextColors.DARK_GREEN).append(Text.of(TextColors.GREEN, "Border")).build());
 
