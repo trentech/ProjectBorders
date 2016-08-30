@@ -11,6 +11,7 @@ import org.spongepowered.api.plugin.PluginContainer;
 
 import com.gmail.trentech.pjb.commands.CommandManager;
 import com.gmail.trentech.pjb.utils.Resource;
+import com.google.inject.Inject;
 
 import me.flibio.updatifier.Updatifier;
 
@@ -18,27 +19,32 @@ import me.flibio.updatifier.Updatifier;
 @Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, description = Resource.DESCRIPTION, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true) })
 public class Main {
 
-	private static Logger log;
-	private static PluginContainer plugin;
+	@Inject
+	private Logger log;
+	
+	@Inject
+	private PluginContainer plugin;
 
+	private static Main instance;
 	@Listener
-	public void onPreInitialization(GamePreInitializationEvent event) {
-		plugin = Sponge.getPluginManager().getPlugin(Resource.ID).get();
-		log = getPlugin().getLogger();
+	public void onPreInitializationEvent(GamePreInitializationEvent event) {
+		instance = this;
 	}
-
+	
 	@Listener
-	public void onInitialization(GameInitializationEvent event) {
+	public void onInitializationEvent(GameInitializationEvent event) {
 		Sponge.getCommandManager().register(this, new CommandManager().cmdBorder, "border", "b");
-
-		// new ConfigManager().init();
 	}
 
-	public static Logger getLog() {
+	public Logger getLog() {
 		return log;
 	}
 
-	public static PluginContainer getPlugin() {
+	public PluginContainer getPlugin() {
 		return plugin;
+	}
+	
+	public static Main instance() {
+		return instance;
 	}
 }

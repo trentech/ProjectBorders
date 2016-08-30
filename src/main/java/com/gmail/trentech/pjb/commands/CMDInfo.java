@@ -12,9 +12,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.pagination.PaginationList;
-import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.WorldBorder;
@@ -34,28 +32,12 @@ public class CMDInfo implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if (!args.hasAny("world")) {
-			src.sendMessage(invalidArg());
-			return CommandResult.empty();
-		}
-		String worldName = args.<String> getOne("world").get();
-
-		if (worldName.equalsIgnoreCase("@w") && src instanceof Player) {
-			worldName = ((Player) src).getWorld().getName();
-		}
-
-		Optional<WorldProperties> optionalProperties = Sponge.getServer().getWorldProperties(worldName);
-
-		if (!optionalProperties.isPresent()) {
-			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " does not exist"));
-			return CommandResult.empty();
-		}
-		WorldProperties properties = optionalProperties.get();
+		WorldProperties properties = args.<WorldProperties> getOne("world").get();
 
 		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
-			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " must be loaded"));
+			src.sendMessage(Text.of(TextColors.DARK_RED, properties.getWorldName(), " must be loaded"));
 			return CommandResult.empty();
 		}
 		World world = optionalWorld.get();
@@ -87,7 +69,7 @@ public class CMDInfo implements CommandExecutor {
 		list.add(Text.of(TextColors.GREEN, "Damage Threshold: ", TextColors.WHITE, border.getDamageThreshold()));
 		
 		if (src instanceof Player) {
-			PaginationList.Builder pages = Sponge.getServiceManager().provide(PaginationService.class).get().builder();
+			PaginationList.Builder pages = PaginationList.builder();
 
 			pages.title(Text.builder().color(TextColors.DARK_GREEN).append(Text.of(TextColors.GREEN, "Border")).build());
 
@@ -101,12 +83,5 @@ public class CMDInfo implements CommandExecutor {
 		}
 		
 		return CommandResult.success();
-	}
-
-	private Text invalidArg() {
-		Text t1 = Text.of(TextColors.YELLOW, "/border info ");
-		Text t2 = Text.builder().color(TextColors.YELLOW).onHover(TextActions.showText(Text.of("Enter world name"))).append(Text.of("<world>")).build();
-
-		return Text.of(t1, t2);
 	}
 }

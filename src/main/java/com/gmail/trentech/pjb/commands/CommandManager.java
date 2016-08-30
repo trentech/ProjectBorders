@@ -9,50 +9,55 @@ public class CommandManager {
 	private CommandSpec cmdCenter = CommandSpec.builder()
 		    .description(Text.of(" Set the center coordinates of border"))
 		    .permission("pjb.cmd.border.center")
-		    .arguments(GenericArguments.optional(GenericArguments.string(Text.of("world"))), GenericArguments.optional(GenericArguments.string(Text.of("x"))),
-		    		GenericArguments.optional(GenericArguments.string(Text.of("z"))))
+		    .arguments(GenericArguments.world(Text.of("world")), GenericArguments.optional(GenericArguments.seq(GenericArguments.doubleNum(Text.of("x")), GenericArguments.doubleNum(Text.of("z")))))
 		    .executor(new CMDCenter())
 		    .build();
 	
 	private CommandSpec cmdDamage = CommandSpec.builder()
 		    .description(Text.of(" Set damage threhold and amount"))
 		    .permission("pjb.cmd.border.damage")
-		    .arguments(GenericArguments.optional(GenericArguments.string(Text.of("world"))), GenericArguments.optional(GenericArguments.string(Text.of("distance"))),
-		    		GenericArguments.optional(GenericArguments.string(Text.of("damage"))))
+		    .arguments(GenericArguments.world(Text.of("world")), GenericArguments.doubleNum(Text.of("distance")), GenericArguments.doubleNum(Text.of("damage")))
 		    .executor(new CMDGenerate())
 		    .build();
 	
 	private CommandSpec cmdDiameter = CommandSpec.builder()
 		    .description(Text.of(" Set the diameter of the border"))
 		    .permission("pjb.cmd.border.diameter")
-		    .arguments(GenericArguments.optional(GenericArguments.string(Text.of("world"))), GenericArguments.optional(GenericArguments.string(Text.of("startDiameter"))),
-		    		GenericArguments.optional(GenericArguments.string(Text.of("time"))), GenericArguments.optional(GenericArguments.string(Text.of("endDiameter"))))
+		    .arguments(GenericArguments.world(Text.of("world")), GenericArguments.doubleNum(Text.of("startDiameter")),
+		    		GenericArguments.optional(GenericArguments.seq(GenericArguments.longNum(Text.of("time")), GenericArguments.optional(GenericArguments.doubleNum(Text.of("endDiameter"))))))
 		    .executor(new CMDDiameter())
 		    .build();
 	
 	private CommandSpec cmdGenerate = CommandSpec.builder()
 		    .description(Text.of(" Pre-generate chunks within border"))
 		    .permission("pjb.cmd.border.generate")
-		    .arguments(GenericArguments.optional(GenericArguments.string(Text.of("world"))), GenericArguments.flags().flag("s")
-		    		.valueFlag(GenericArguments.string(Text.of("tickInverval")), "i")
-		    		.valueFlag(GenericArguments.string(Text.of("tickPercent")), "p")
-		    		.valueFlag(GenericArguments.string(Text.of("chunkCount")), "c").buildWith(GenericArguments.none()))
+		    .arguments(GenericArguments.string(Text.of("world")), GenericArguments.flags().flag("s")
+		    		.valueFlag(GenericArguments.integer(Text.of("tickInverval")), "i")
+		    		.valueFlag(GenericArguments.integer(Text.of("tickPercent")), "p")
+		    		.valueFlag(GenericArguments.doubleNum(Text.of("chunkCount")), "c").buildWith(GenericArguments.none()))
 		    .executor(new CMDGenerate())
 		    .build();
 	
 	private CommandSpec cmdWarning = CommandSpec.builder()
 		    .description(Text.of(" Set warning values of border"))
 		    .permission("pjb.cmd.border.warning")
-		    .arguments(GenericArguments.optional(GenericArguments.string(Text.of("world"))), GenericArguments.optional(GenericArguments.string(Text.of("distance"))),
-		    		GenericArguments.optional(GenericArguments.string(Text.of("time"))))
+		    .arguments(GenericArguments.world(Text.of("world")), GenericArguments.integer(Text.of("distance")),
+		    		GenericArguments.optional(GenericArguments.integer(Text.of("time"))))
 		    .executor(new CMDWarning())
 		    .build();
 	
 	private CommandSpec cmdInfo = CommandSpec.builder()
 		    .description(Text.of(" Shows border information"))
 		    .permission("pjb.cmd.border.info")
-		    .arguments(GenericArguments.optional(GenericArguments.string(Text.of("world"))))
+		    .arguments(GenericArguments.world(Text.of("world")))
 		    .executor(new CMDInfo())
+		    .build();
+	
+	public CommandSpec cmdHelp = CommandSpec.builder()
+		    .description(Text.of(" I need help with Project Borders"))
+		    .permission("pjw.cmd.border")
+		    .arguments(GenericArguments.string(Text.of("command")))
+		    .executor(new CMDHelp())
 		    .build();
 	
 	public CommandSpec cmdBorder = CommandSpec.builder()
@@ -64,6 +69,7 @@ public class CommandManager {
 		    .child(cmdGenerate, "generate", "g")
 		    .child(cmdWarning, "warning", "w")
 		    .child(cmdInfo, "info", "i")
+		    .child(cmdHelp, "help", "h")
 		    .executor(new CMDBorder())
 		    .build();
 }

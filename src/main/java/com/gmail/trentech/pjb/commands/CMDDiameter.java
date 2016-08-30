@@ -8,7 +8,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
@@ -29,28 +28,12 @@ public class CMDDiameter implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if (!args.hasAny("world")) {
-			src.sendMessage(invalidArg());
-			return CommandResult.empty();
-		}
-		String worldName = args.<String> getOne("world").get();
-
-		if (worldName.equalsIgnoreCase("@w") && src instanceof Player) {
-			worldName = ((Player) src).getWorld().getName();
-		}
-
-		Optional<WorldProperties> optionalProperties = Sponge.getServer().getWorldProperties(worldName);
-
-		if (!optionalProperties.isPresent()) {
-			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " does not exist"));
-			return CommandResult.empty();
-		}
-		WorldProperties properties = optionalProperties.get();
+		WorldProperties properties = args.<WorldProperties> getOne("world").get();
 
 		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
-			src.sendMessage(Text.of(TextColors.DARK_RED, worldName, " must be loaded"));
+			src.sendMessage(Text.of(TextColors.DARK_RED, properties.getWorldName(), " must be loaded"));
 			return CommandResult.empty();
 		}
 		World world = optionalWorld.get();
@@ -62,48 +45,29 @@ public class CMDDiameter implements CommandExecutor {
 			return CommandResult.empty();
 		}
 
-		double startDiameter;
-		try {
-			startDiameter = Double.parseDouble(args.<String> getOne("startDiameter").get());
-		} catch (Exception e) {
-			src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid number"));
-			src.sendMessage(invalidArg());
-			return CommandResult.empty();
-		}
+		double startDiameter = args.<Double> getOne("startDiameter").get();
 
 		long time = 0;
 		double endDiameter = 0;
 		if (args.hasAny("time")) {
-			try {
-				time = Long.parseLong(args.<String> getOne("time").get()) * 1000;
-			} catch (Exception e) {
-				src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid number"));
-				src.sendMessage(invalidArg());
-				return CommandResult.empty();
-			}
+			time = args.<Long> getOne("time").get();
 
 			if (args.hasAny("endDiameter")) {
-				try {
-					endDiameter = Double.parseDouble(args.<String> getOne("endDiameter").get());
-				} catch (Exception e) {
-					src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid number"));
-					src.sendMessage(invalidArg());
-					return CommandResult.empty();
-				}
+				endDiameter = args.<Double> getOne("endDiameter").get();
 			}
 		}
 
 		if (time != 0) {
 			if (endDiameter != 0) {
 				border.setDiameter(startDiameter, endDiameter, time);
-				src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set diameter of ", worldName, " to start: ", startDiameter, "end: ", endDiameter, " time: ", time));
+				src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set diameter of ", world.getName(), " to start: ", startDiameter, "end: ", endDiameter, " time: ", time));
 			} else {
 				border.setDiameter(startDiameter, time);
-				src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set diameter of ", worldName, " to start: ", startDiameter, " time: ", time));
+				src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set diameter of ", world.getName(), " to start: ", startDiameter, " time: ", time));
 			}
 		} else {
 			border.setDiameter(startDiameter);
-			src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set diameter of ", worldName, " to ", startDiameter));
+			src.sendMessage(Text.of(TextColors.DARK_GREEN, "Set diameter of ", world.getName(), " to ", startDiameter));
 		}
 
 		return CommandResult.success();
