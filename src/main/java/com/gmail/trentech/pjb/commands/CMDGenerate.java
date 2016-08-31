@@ -2,6 +2,7 @@ package com.gmail.trentech.pjb.commands;
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
@@ -85,21 +86,30 @@ public class CMDGenerate implements CommandExecutor {
 
 		list.put(worldName, task);
 
-		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Pre-Generator starting for ", worldName));
-		src.sendMessage(Text.of(TextColors.GOLD, "This can cause significant lag while running"));
-
-		status(src, task);
+		Sponge.getServer().getBroadcastChannel().send(Text.of(TextColors.DARK_GREEN, "Pre-Generator starting for ", worldName));
+		Sponge.getServer().getBroadcastChannel().send(Text.of(TextColors.GOLD, "This can cause significant lag while running"));
+		
+		status(task, worldName);
 
 		return CommandResult.success();
 	}
-
-	private void status(CommandSource src, Task task) {
+	
+	private AtomicReference<Integer> time = new AtomicReference<Integer>(0);
+	
+	private void status(Task task, String worldName) {
 		Sponge.getScheduler().createTaskBuilder().delayTicks(100).execute(c -> {
 			if (!Sponge.getScheduler().getScheduledTasks(Main.instance().getPlugin()).contains(task)) {
-				src.sendMessage(Text.of(TextColors.DARK_GREEN, "Pre-Generator finished"));
+				Sponge.getServer().getBroadcastChannel().send(Text.of(TextColors.DARK_GREEN, "Pre-Generator finished for ", worldName));
 			} else {
-				status(src, task);
-			}
+				if(time.get() == 60) {
+					Sponge.getServer().getBroadcastChannel().send(Text.of(TextColors.DARK_GREEN, "Pre-Generator is running for ", worldName));
+					Sponge.getServer().getBroadcastChannel().send(Text.of(TextColors.GOLD, "This can cause significant lag while running"));
+					time.set(0);
+				} else {
+					time.set(time.get() + 5);
+				}
+				status(task, worldName);
+			}			
 		}).submit(Main.instance().getPlugin());
 	}
 }
