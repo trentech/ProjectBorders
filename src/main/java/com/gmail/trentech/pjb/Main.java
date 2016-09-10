@@ -21,13 +21,13 @@ public class Main {
 
 	@Inject
 	private Logger log;
-	
-	@Inject
-	private PluginContainer plugin;
 
+	private static  PluginContainer plugin;
 	private static Main instance;
+	
 	@Listener
 	public void onPreInitializationEvent(GamePreInitializationEvent event) {
+		plugin = Sponge.getPluginManager().getPlugin(Resource.ID).get();
 		instance = this;
 	}
 	
@@ -40,7 +40,7 @@ public class Main {
 		return log;
 	}
 
-	public PluginContainer getPlugin() {
+	public static PluginContainer getPlugin() {
 		return plugin;
 	}
 	

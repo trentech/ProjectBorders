@@ -58,7 +58,7 @@ public class CMDGenerate implements CommandExecutor {
 		}
 
 		if (list.containsKey(worldName)) {
-			if (Sponge.getScheduler().getScheduledTasks(Main.instance().getPlugin()).contains(list.get(worldName))) {
+			if (Sponge.getScheduler().getScheduledTasks(Main.getPlugin()).contains(list.get(worldName))) {
 				src.sendMessage(Text.of(TextColors.YELLOW, "Pre-Generator already running for this world"));
 				return CommandResult.empty();
 			}
@@ -67,7 +67,7 @@ public class CMDGenerate implements CommandExecutor {
 
 		WorldBorder border = world.getWorldBorder();
 
-		ChunkPreGenerate generator = border.newChunkPreGenerate(world).owner(Main.instance().getPlugin());
+		ChunkPreGenerate generator = border.newChunkPreGenerate(world).owner(Main.getPlugin());
 		generator.logger(Main.instance().getLog());
 
 		if (args.hasAny("tickInterval")) {
@@ -98,7 +98,7 @@ public class CMDGenerate implements CommandExecutor {
 	
 	private void status(Task task, String worldName) {
 		Sponge.getScheduler().createTaskBuilder().delayTicks(100).execute(c -> {
-			if (!Sponge.getScheduler().getScheduledTasks(Main.instance().getPlugin()).contains(task)) {
+			if (!Sponge.getScheduler().getScheduledTasks(Main.getPlugin()).contains(task)) {
 				Sponge.getServer().getBroadcastChannel().send(Text.of(TextColors.DARK_GREEN, "Pre-Generator finished for ", worldName));
 			} else {
 				if(time.get() == 60) {
@@ -110,6 +110,6 @@ public class CMDGenerate implements CommandExecutor {
 				}
 				status(task, worldName);
 			}			
-		}).submit(Main.instance().getPlugin());
+		}).submit(Main.getPlugin());
 	}
 }
