@@ -55,7 +55,6 @@ public class CMDHelp implements CommandExecutor {
 			}
 		}
 
-		src.sendMessage(Text.of(TextColors.DARK_RED, command, " is not a valid command"));
-		return CommandResult.empty();
+		throw new CommandException(Text.of(TextColors.RED, command, " is not a valid command"));
 	}
 }

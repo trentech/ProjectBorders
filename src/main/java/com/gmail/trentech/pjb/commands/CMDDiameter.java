@@ -33,16 +33,14 @@ public class CMDDiameter implements CommandExecutor {
 		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
-			src.sendMessage(Text.of(TextColors.DARK_RED, properties.getWorldName(), " must be loaded"));
-			return CommandResult.empty();
+			throw new CommandException(Text.of(TextColors.RED, properties.getWorldName(), " must be loaded"));
 		}
 		World world = optionalWorld.get();
 
 		WorldBorder border = world.getWorldBorder();
 
 		if (!args.hasAny("startDiameter")) {
-			src.sendMessage(invalidArg());
-			return CommandResult.empty();
+			throw new CommandException(invalidArg());
 		}
 
 		double startDiameter = args.<Double> getOne("startDiameter").get();
