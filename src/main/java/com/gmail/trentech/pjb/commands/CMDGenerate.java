@@ -39,16 +39,14 @@ public class CMDGenerate implements CommandExecutor {
 		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
-			src.sendMessage(Text.of(TextColors.RED, properties.getWorldName(), " must be loaded"));
-			return CommandResult.empty();
+			throw new CommandException(Text.of(TextColors.RED, properties.getWorldName(), " must be loaded"));
 		}
 		World world = optionalWorld.get();
 		String worldName = world.getName();
 
 		if (args.hasAny("s")) {
 			if (!list.containsKey(worldName)) {
-				src.sendMessage(Text.of(TextColors.YELLOW, "Pre-Generator not running for this world"));
-				return CommandResult.empty();
+				throw new CommandException(Text.of(TextColors.YELLOW, "Pre-Generator not running for this world"));
 			}
 			list.get(worldName).cancel();
 			list.remove(worldName);
@@ -59,8 +57,7 @@ public class CMDGenerate implements CommandExecutor {
 
 		if (list.containsKey(worldName)) {
 			if (Sponge.getScheduler().getScheduledTasks(Main.instance().getPlugin()).contains(list.get(worldName))) {
-				src.sendMessage(Text.of(TextColors.YELLOW, "Pre-Generator already running for this world"));
-				return CommandResult.empty();
+				throw new CommandException(Text.of(TextColors.YELLOW, "Pre-Generator already running for this world"));
 			}
 			list.remove(worldName);
 		}

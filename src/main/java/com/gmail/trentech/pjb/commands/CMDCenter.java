@@ -34,8 +34,7 @@ public class CMDCenter implements CommandExecutor {
 		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
-			src.sendMessage(Text.of(TextColors.DARK_RED, properties.getWorldName(), " must be loaded"));
-			return CommandResult.empty();
+			throw new CommandException(Text.of(TextColors.RED, properties.getWorldName(), " must be loaded"));
 		}
 		World world = optionalWorld.get();
 
@@ -48,16 +47,14 @@ public class CMDCenter implements CommandExecutor {
 			z = args.<Double> getOne("z").get();
 		} else if(src instanceof Player) {
 			if(!((Player) src).getWorld().equals(world)) {
-				src.sendMessage(Text.of(TextColors.RED, "You need to specify x and z coordinates. You are not standing in the provided world."));
-				return CommandResult.empty();
+				throw new CommandException(Text.of(TextColors.RED, "You need to specify x and z coordinates. You are not standing in the provided world."));
 			}
 			Location<World> location = ((Player) src).getLocation();
 			
 			x = location.getX();
 			z = location.getZ();
 		} else {
-			src.sendMessage(Text.of(TextColors.RED, "Must be a player"));
-			return CommandResult.empty();
+			throw new CommandException(Text.of(TextColors.RED, "Must be a player"));
 		}
 
 		border.setCenter(x, z);

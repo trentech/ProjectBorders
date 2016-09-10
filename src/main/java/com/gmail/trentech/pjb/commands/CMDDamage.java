@@ -32,8 +32,7 @@ public class CMDDamage implements CommandExecutor {
 		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
-			src.sendMessage(Text.of(TextColors.DARK_RED, properties.getWorldName(), " must be loaded"));
-			return CommandResult.empty();
+			throw new CommandException(Text.of(TextColors.DARK_RED, properties.getWorldName(), " must be loaded"));
 		}
 		World world = optionalWorld.get();
 
