@@ -22,7 +22,7 @@ public class CMDBorder implements CommandExecutor {
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		List<Text> list = new ArrayList<>();
 
-		list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.runCommand("/pjb:border help")).append(Text.of(" /border help")).build());
+		list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command to execute "))).onClick(TextActions.runCommand("/pjb:border help")).append(Text.of(" /border help")).build());
 		
 		if (src.hasPermission("pjb.cmd.border.center")) {
 			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("center"))).append(Text.of(" /border center")).build());

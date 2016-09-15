@@ -4,6 +4,8 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 
+import com.gmail.trentech.pjb.utils.Help;
+
 public class CommandManager {
 
 	private CommandSpec cmdCenter = CommandSpec.builder()
@@ -56,7 +58,7 @@ public class CommandManager {
 	public CommandSpec cmdHelp = CommandSpec.builder()
 		    .description(Text.of(" I need help with Project Borders"))
 		    .permission("pjw.cmd.border")
-		    .arguments(GenericArguments.string(Text.of("command")))
+		    .arguments(GenericArguments.choices(Text.of("command"), Help.all()))
 		    .executor(new CMDHelp())
 		    .build();
 	
