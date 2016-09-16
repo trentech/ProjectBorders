@@ -27,16 +27,17 @@ public class CMDBorder implements CommandExecutor {
 		list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command to execute "))).onClick(TextActions.runCommand("/pjb:border help")).append(Text.of(" /border help")).build());
 		
 		for (Entry<String, Help> entry : Help.all().entrySet()) {
-			String command = entry.getKey();
-
+			String id = entry.getKey();
+			String command = entry.getValue().getCommand();
+			
 			Optional<String> optionalPermission = entry.getValue().getPermission();
 			
 			if(optionalPermission.isPresent()) {
 				if (src.hasPermission(optionalPermission.get())) {
-					list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp(command))).append(Text.of(" /border " + command)).build());
+					list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp(id))).append(Text.of(" /border " + command)).build());
 				}
 			} else {
-				list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp(command))).append(Text.of(" /border " + command)).build());
+				list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp(id))).append(Text.of(" /border " + command)).build());
 			}
 		}
 
