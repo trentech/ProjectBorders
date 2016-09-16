@@ -25,6 +25,7 @@ public class CMDInfo implements CommandExecutor {
 
 	public CMDInfo() {
 		Help help = new Help("info", "info", " Show information of world border");
+		help.setPermission("pjb.cmd.border.info");
 		help.setSyntax(" /border info <world>\n /b i <world>");
 		help.setExample(" /border info MyWorld");
 		help.save();
@@ -37,7 +38,7 @@ public class CMDInfo implements CommandExecutor {
 		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
-			throw new CommandException(Text.of(TextColors.RED, properties.getWorldName(), " must be loaded"));
+			throw new CommandException(Text.of(TextColors.RED, properties.getWorldName(), " must be loaded"), false);
 		}
 		World world = optionalWorld.get();
 

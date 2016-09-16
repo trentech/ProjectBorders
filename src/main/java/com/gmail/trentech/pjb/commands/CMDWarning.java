@@ -20,6 +20,7 @@ public class CMDWarning implements CommandExecutor {
 
 	public CMDWarning() {
 		Help help = new Help("warning", "warning", " Set the center coordinates of border");
+		help.setPermission("pjb.cmd.border.warning");
 		help.setSyntax(" /border warning <world> <distance> [time]\n /b w <world> <distance> [time]");
 		help.setExample(" /border warning MyWorld 4900\n /border warning MyWorld 4900 10");
 		help.save();
@@ -32,7 +33,7 @@ public class CMDWarning implements CommandExecutor {
 		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
-			throw new CommandException(Text.of(TextColors.RED, properties.getWorldName(), " must be loaded"));
+			throw new CommandException(Text.of(TextColors.RED, properties.getWorldName(), " must be loaded"), false);
 		}
 		World world = optionalWorld.get();
 

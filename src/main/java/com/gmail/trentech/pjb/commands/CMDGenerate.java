@@ -27,6 +27,7 @@ public class CMDGenerate implements CommandExecutor {
 
 	public CMDGenerate() {
 		Help help = new Help("generate", "generate", " Pre generate chunks inside border");
+		help.setPermission("pjb.cmd.border.generate");
 		help.setSyntax(" /border generate <world> [-s] [-i <tickInverval>] [-p <tickPercent>] [-c <chunkCount>]\n /b f <world> [-s] [-i <tickInverval>] [-p <tickPercent>] [-c <chunkCount>]");
 		help.setExample(" /border generate MyWorld\n /border generate MyWorld -s\n /border generate MyWorld -i 60 -p 0.4 -c 5");
 		help.save();
@@ -39,14 +40,14 @@ public class CMDGenerate implements CommandExecutor {
 		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
-			throw new CommandException(Text.of(TextColors.RED, properties.getWorldName(), " must be loaded"));
+			throw new CommandException(Text.of(TextColors.RED, properties.getWorldName(), " must be loaded"), false);
 		}
 		World world = optionalWorld.get();
 		String worldName = world.getName();
 
 		if (args.hasAny("s")) {
 			if (!list.containsKey(worldName)) {
-				throw new CommandException(Text.of(TextColors.YELLOW, "Pre-Generator not running for this world"));
+				throw new CommandException(Text.of(TextColors.YELLOW, "Pre-Generator not running for this world"), false);
 			}
 			list.get(worldName).cancel();
 			list.remove(worldName);
@@ -57,7 +58,7 @@ public class CMDGenerate implements CommandExecutor {
 
 		if (list.containsKey(worldName)) {
 			if (Sponge.getScheduler().getScheduledTasks(Main.getPlugin()).contains(list.get(worldName))) {
-				throw new CommandException(Text.of(TextColors.YELLOW, "Pre-Generator already running for this world"));
+				throw new CommandException(Text.of(TextColors.YELLOW, "Pre-Generator already running for this world"), false);
 			}
 			list.remove(worldName);
 		}

@@ -22,6 +22,7 @@ public class CMDCenter implements CommandExecutor {
 
 	public CMDCenter() {
 		Help help = new Help("center", "center", " Set the center coordinates of border");
+		help.setPermission("pjb.cmd.border.center");
 		help.setSyntax(" /border center <world> <x> <z>\n /b d <world> <x> <z>");
 		help.setExample(" /border center MyWorld 100 -250");
 		help.save();
@@ -47,14 +48,14 @@ public class CMDCenter implements CommandExecutor {
 			z = args.<Double> getOne("z").get();
 		} else if(src instanceof Player) {
 			if(!((Player) src).getWorld().equals(world)) {
-				throw new CommandException(Text.of(TextColors.RED, "You need to specify x and z coordinates. You are not standing in the provided world."));
+				throw new CommandException(Text.of(TextColors.RED, "You need to specify x and z coordinates. You are not standing in the provided world."), true);
 			}
 			Location<World> location = ((Player) src).getLocation();
 			
 			x = location.getX();
 			z = location.getZ();
 		} else {
-			throw new CommandException(Text.of(TextColors.RED, "Must be a player"));
+			throw new CommandException(Text.of(TextColors.RED, "Must be a player"), false);
 		}
 
 		border.setCenter(x, z);

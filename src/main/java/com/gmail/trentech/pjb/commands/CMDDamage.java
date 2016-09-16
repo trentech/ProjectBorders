@@ -20,6 +20,7 @@ public class CMDDamage implements CommandExecutor {
 
 	public CMDDamage() {
 		Help help = new Help("damage", "damage", " Set the damage threshold and amount damage player takes");
+		help.setPermission("pjb.cmd.border.damage");
 		help.setSyntax(" /border damage <world> <distance> [damage]\n /b dmg <world> <distance> [damage]");
 		help.setExample(" /border damage MyWorld 50\n /border diameter MyWorld 50 2");
 		help.save();
@@ -32,7 +33,7 @@ public class CMDDamage implements CommandExecutor {
 		Optional<World> optionalWorld = Sponge.getServer().getWorld(properties.getUniqueId());
 
 		if (!optionalWorld.isPresent()) {
-			throw new CommandException(Text.of(TextColors.DARK_RED, properties.getWorldName(), " must be loaded"));
+			throw new CommandException(Text.of(TextColors.DARK_RED, properties.getWorldName(), " must be loaded"), false);
 		}
 		World world = optionalWorld.get();
 

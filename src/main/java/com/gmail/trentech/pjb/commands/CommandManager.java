@@ -19,7 +19,7 @@ public class CommandManager {
 		    .description(Text.of(" Set damage threhold and amount"))
 		    .permission("pjb.cmd.border.damage")
 		    .arguments(GenericArguments.world(Text.of("world")), GenericArguments.doubleNum(Text.of("distance")), GenericArguments.doubleNum(Text.of("damage")))
-		    .executor(new CMDGenerate())
+		    .executor(new CMDDamage())
 		    .build();
 	
 	private CommandSpec cmdDiameter = CommandSpec.builder()
@@ -55,7 +55,7 @@ public class CommandManager {
 		    .executor(new CMDInfo())
 		    .build();
 	
-	public CommandSpec cmdHelp = CommandSpec.builder()
+	private CommandSpec cmdHelp = CommandSpec.builder()
 		    .description(Text.of(" I need help with Project Borders"))
 		    .permission("pjw.cmd.border")
 		    .arguments(GenericArguments.choices(Text.of("command"), Help.all()))

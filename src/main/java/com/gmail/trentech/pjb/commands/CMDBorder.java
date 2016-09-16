@@ -2,6 +2,8 @@ package com.gmail.trentech.pjb.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -24,23 +26,18 @@ public class CMDBorder implements CommandExecutor {
 
 		list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command to execute "))).onClick(TextActions.runCommand("/pjb:border help")).append(Text.of(" /border help")).build());
 		
-		if (src.hasPermission("pjb.cmd.border.center")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("center"))).append(Text.of(" /border center")).build());
-		}
-		if (src.hasPermission("pjb.cmd.border.damage")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("damage"))).append(Text.of(" /border damage")).build());
-		}
-		if (src.hasPermission("pjb.cmd.border.diameter")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("diameter"))).append(Text.of(" /border diameter")).build());
-		}
-		if (src.hasPermission("pjb.cmd.border.generate")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("generate"))).append(Text.of(" /border generate")).build());
-		}
-		if (src.hasPermission("pjb.cmd.border.info")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("info"))).append(Text.of(" /border info")).build());
-		}
-		if (src.hasPermission("pjb.cmd.border.warning")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("warning"))).append(Text.of(" /border warning")).build());
+		for (Entry<String, Help> entry : Help.all().entrySet()) {
+			String command = entry.getKey();
+
+			Optional<String> optionalPermission = entry.getValue().getPermission();
+			
+			if(optionalPermission.isPresent()) {
+				if (src.hasPermission(optionalPermission.get())) {
+					list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp(command))).append(Text.of(" /border " + command)).build());
+				}
+			} else {
+				list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp(command))).append(Text.of(" /border " + command)).build());
+			}
 		}
 
 		if (src instanceof Player) {
