@@ -21,11 +21,11 @@ import com.gmail.trentech.pjb.utils.Help;
 public class CMDCenter implements CommandExecutor {
 
 	public CMDCenter() {
-		Help help = new Help("center", "center", " Set the center coordinates of border");
-		help.setPermission("pjb.cmd.border.center");
-		help.setSyntax(" /border center <world> <x> <z>\n /b d <world> <x> <z>");
-		help.setExample(" /border center MyWorld 100 -250");
-		help.save();
+		new Help("border center", "center", "Set the center coordinates of border", false)
+			.setPermission("pjb.cmd.border.center")
+			.setUsage("/border center <world> <x> <z>\n /b d <world> <x> <z>")
+			.setExample("/border center MyWorld 100 -250")
+			.save();
 	}
 
 	@Override

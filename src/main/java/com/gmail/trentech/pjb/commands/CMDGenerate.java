@@ -26,11 +26,11 @@ public class CMDGenerate implements CommandExecutor {
 	private static HashMap<String, Task> list = new HashMap<>();
 
 	public CMDGenerate() {
-		Help help = new Help("generate", "generate", " Pre generate chunks inside border");
-		help.setPermission("pjb.cmd.border.generate");
-		help.setSyntax(" /border generate <world> [-s] [-i <tickInverval>] [-p <tickPercent>] [-c <chunkCount>]\n /b f <world> [-s] [-i <tickInverval>] [-p <tickPercent>] [-c <chunkCount>]");
-		help.setExample(" /border generate MyWorld\n /border generate MyWorld -s\n /border generate MyWorld -i 60 -p 0.4 -c 5");
-		help.save();
+		new Help("border generate", "generate", "Pre generate chunks inside border", false)
+			.setPermission("pjb.cmd.border.generate")
+			.setUsage("/border generate <world> [-s] [-i <tickInverval>] [-p <tickPercent>] [-c <chunkCount>]\n /b f <world> [-s] [-i <tickInverval>] [-p <tickPercent>] [-c <chunkCount>]")
+			.setExample("/border generate MyWorld\n /border generate MyWorld -s\n /border generate MyWorld -i 60 -p 0.4 -c 5")
+			.save();
 	}
 
 	@Override

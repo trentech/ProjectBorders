@@ -19,11 +19,11 @@ import com.gmail.trentech.pjb.utils.Help;
 public class CMDDiameter implements CommandExecutor {
 
 	public CMDDiameter() {
-		Help help = new Help("diameter", "diameter", " Set the diameter of border");
-		help.setPermission("pjb.cmd.border.diameter");
-		help.setSyntax(" /border diameter <world> <startDiameter> [<time> [endDiameter]]\n /b d <world> <startDiameter> [<time> [endDiameter]]");
-		help.setExample(" /border diameter MyWorld 5000\n /border diameter MyWorld 5000 60\n /border diameter MyWorld 5000 120 1000");
-		help.save();
+		new Help("border diameter", "diameter", "Set the diameter of border", false)
+			.setPermission("pjb.cmd.border.diameter")
+			.setUsage("/border diameter <world> <startDiameter> [<time> [endDiameter]]\n /b d <world> <startDiameter> [<time> [endDiameter]]")
+			.setExample("/border diameter MyWorld 5000\n /border diameter MyWorld 5000 60\n /border diameter MyWorld 5000 120 1000")
+			.save();
 	}
 
 	@Override

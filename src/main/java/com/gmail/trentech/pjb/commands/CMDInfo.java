@@ -24,11 +24,11 @@ import com.gmail.trentech.pjb.utils.Help;
 public class CMDInfo implements CommandExecutor {
 
 	public CMDInfo() {
-		Help help = new Help("info", "info", " Show information of world border");
-		help.setPermission("pjb.cmd.border.info");
-		help.setSyntax(" /border info <world>\n /b i <world>");
-		help.setExample(" /border info MyWorld");
-		help.save();
+		new Help("border info", "info", "Show information of world border", false)
+			.setPermission("pjb.cmd.border.info")
+			.setUsage("/border info <world>\n /b i <world>")
+			.setExample("/border info MyWorld")
+			.save();
 	}
 
 	@Override

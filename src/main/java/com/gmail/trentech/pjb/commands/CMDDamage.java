@@ -19,11 +19,11 @@ import com.gmail.trentech.pjb.utils.Help;
 public class CMDDamage implements CommandExecutor {
 
 	public CMDDamage() {
-		Help help = new Help("damage", "damage", " Set the damage threshold and amount damage player takes");
-		help.setPermission("pjb.cmd.border.damage");
-		help.setSyntax(" /border damage <world> <distance> [damage]\n /b dmg <world> <distance> [damage]");
-		help.setExample(" /border damage MyWorld 50\n /border diameter MyWorld 50 2");
-		help.save();
+		new Help("border damage", "damage", "Set the damage threshold and amount damage player takes", false)
+			.setPermission("pjb.cmd.border.damage")
+			.setUsage("/border damage <world> <distance> [damage]\n /b dmg <world> <distance> [damage]")
+			.setExample("/border damage MyWorld 50\n /border diameter MyWorld 50 2")
+			.save();
 	}
 
 	@Override
