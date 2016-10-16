@@ -14,7 +14,7 @@ public class CMDHelp implements CommandExecutor {
 		new Help("border help", "help", "Get help with all commands in Project Borders", false)
 			.setPermission("pjw.pjb.border")
 			.setUsage("/border help <rawCommand>")
-			.setExample("/border help world create")
+			.setExample("/border help border create")
 			.save();
 	}
 	
