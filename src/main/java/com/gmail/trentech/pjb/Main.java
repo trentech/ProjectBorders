@@ -36,7 +36,7 @@ public class Main {
 	public void onInitializationEvent(GameInitializationEvent event) {
 		Sponge.getCommandManager().register(this, new CommandManager().cmdBorder, "border", "b");
 		
-		if(Sponge.getPluginManager().getPlugin("helpme").isPresent()) {
+		if (Sponge.getPluginManager().isLoaded("helpme")) {
 			Help borderCenter = new Help("border center", "center", "Set the center coordinates of border")
 					.setPermission("pjb.cmd.border.center")
 					.addUsage("/border center <world> <x> <z>")
