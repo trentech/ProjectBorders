@@ -16,17 +16,7 @@ import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.WorldBorder;
 import org.spongepowered.api.world.storage.WorldProperties;
 
-import com.gmail.trentech.pjb.utils.Help;
-
 public class CMDCenter implements CommandExecutor {
-
-	public CMDCenter() {
-		new Help("border center", "center", "Set the center coordinates of border", false)
-			.setPermission("pjb.cmd.border.center")
-			.setUsage("/border center <world> <x> <z>\n /b d <world> <x> <z>")
-			.setExample("/border center MyWorld 100 -250")
-			.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

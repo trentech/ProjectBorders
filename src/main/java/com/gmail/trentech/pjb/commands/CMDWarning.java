@@ -14,17 +14,7 @@ import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.WorldBorder;
 import org.spongepowered.api.world.storage.WorldProperties;
 
-import com.gmail.trentech.pjb.utils.Help;
-
 public class CMDWarning implements CommandExecutor {
-
-	public CMDWarning() {
-		new Help("border warning", "warning", "Set the center coordinates of border", false)
-			.setPermission("pjb.cmd.border.warning")
-			.setUsage("/border warning <world> <distance> [time]\n /b w <world> <distance> [time]")
-			.setExample("/border warning MyWorld 4900\n /border warning MyWorld 4900 10")
-			.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

@@ -19,17 +19,8 @@ import org.spongepowered.api.world.WorldBorder;
 import org.spongepowered.api.world.storage.WorldProperties;
 
 import com.flowpowered.math.vector.Vector3d;
-import com.gmail.trentech.pjb.utils.Help;
 
 public class CMDInfo implements CommandExecutor {
-
-	public CMDInfo() {
-		new Help("border info", "info", "Show information of world border", false)
-			.setPermission("pjb.cmd.border.info")
-			.setUsage("/border info <world>\n /b i <world>")
-			.setExample("/border info MyWorld")
-			.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

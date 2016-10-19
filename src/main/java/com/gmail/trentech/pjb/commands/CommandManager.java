@@ -4,8 +4,6 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 
-import com.gmail.trentech.pjb.commands.elements.HelpElement;
-
 public class CommandManager {
 
 	private CommandSpec cmdCenter = CommandSpec.builder()
@@ -33,7 +31,7 @@ public class CommandManager {
 	private CommandSpec cmdGenerate = CommandSpec.builder()
 		    .description(Text.of(" Pre-generate chunks within border"))
 		    .permission("pjb.cmd.border.generate")
-		    .arguments(GenericArguments.world(Text.of("world")), GenericArguments.flags().flag("s")
+		    .arguments(GenericArguments.world(Text.of("world")), GenericArguments.flags().flag("stop", "verbose").setAcceptsArbitraryLongFlags(true)
 		    		.valueFlag(GenericArguments.integer(Text.of("tickInterval")), "i")
 		    		.valueFlag(GenericArguments.integer(Text.of("tickPercent")), "p")
 		    		.valueFlag(GenericArguments.doubleNum(Text.of("chunkCount")), "c").buildWith(GenericArguments.none()))
@@ -54,14 +52,7 @@ public class CommandManager {
 		    .arguments(GenericArguments.world(Text.of("world")))
 		    .executor(new CMDInfo())
 		    .build();
-	
-	private CommandSpec cmdHelp = CommandSpec.builder()
-		    .description(Text.of(" I need help with Project Borders"))
-		    .permission("pjw.cmd.border")
-		    .arguments(new HelpElement(Text.of("rawCommand")))
-		    .executor(new CMDHelp())
-		    .build();
-	
+
 	public CommandSpec cmdBorder = CommandSpec.builder()
 		    .description(Text.of(" Simple world border management"))
 		    .permission("pjb.cmd.border")
@@ -71,7 +62,6 @@ public class CommandManager {
 		    .child(cmdGenerate, "generate", "g")
 		    .child(cmdWarning, "warning", "w")
 		    .child(cmdInfo, "info", "i")
-		    .child(cmdHelp, "help", "h")
 		    .executor(new CMDBorder())
 		    .build();
 }

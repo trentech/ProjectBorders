@@ -14,17 +14,7 @@ import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.WorldBorder;
 import org.spongepowered.api.world.storage.WorldProperties;
 
-import com.gmail.trentech.pjb.utils.Help;
-
 public class CMDDamage implements CommandExecutor {
-
-	public CMDDamage() {
-		new Help("border damage", "damage", "Set the damage threshold and amount damage player takes", false)
-			.setPermission("pjb.cmd.border.damage")
-			.setUsage("/border damage <world> <distance> [damage]\n /b dmg <world> <distance> [damage]")
-			.setExample("/border damage MyWorld 50\n /border diameter MyWorld 50 2")
-			.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

@@ -14,17 +14,7 @@ import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.WorldBorder;
 import org.spongepowered.api.world.storage.WorldProperties;
 
-import com.gmail.trentech.pjb.utils.Help;
-
 public class CMDDiameter implements CommandExecutor {
-
-	public CMDDiameter() {
-		new Help("border diameter", "diameter", "Set the diameter of border", false)
-			.setPermission("pjb.cmd.border.diameter")
-			.setUsage("/border diameter <world> <startDiameter> [<time> [endDiameter]]\n /b d <world> <startDiameter> [<time> [endDiameter]]")
-			.setExample("/border diameter MyWorld 5000\n /border diameter MyWorld 5000 60\n /border diameter MyWorld 5000 120 1000")
-			.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
