@@ -75,7 +75,7 @@ public class CommandHelp {
 					.addExample("/border warning MyWorld 4900");
 			
 			Help border = new Help("border", "border", "Base Project Borders command")
-					.setPermission("pji.cmd.border")
+					.setPermission("pjb.cmd.border")
 					.addChild(borderWarning)
 					.addChild(borderInfo)
 					.addChild(borderGenerate)
