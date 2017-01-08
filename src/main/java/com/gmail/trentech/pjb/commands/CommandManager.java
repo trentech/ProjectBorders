@@ -34,7 +34,7 @@ public class CommandManager {
 		    .arguments(GenericArguments.world(Text.of("world")), GenericArguments.flags().flag("stop", "verbose").setAcceptsArbitraryLongFlags(true)
 		    		.valueFlag(GenericArguments.integer(Text.of("tickInterval")), "i")
 		    		.valueFlag(GenericArguments.integer(Text.of("tickPercent")), "p")
-		    		.valueFlag(GenericArguments.doubleNum(Text.of("chunkCount")), "c").buildWith(GenericArguments.none()))
+		    		.valueFlag(GenericArguments.integer(Text.of("chunkCount")), "c").buildWith(GenericArguments.none()))
 		    .executor(new CMDGenerate())
 		    .build();
 	
