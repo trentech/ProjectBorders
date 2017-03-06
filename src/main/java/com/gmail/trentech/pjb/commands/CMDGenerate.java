@@ -10,21 +10,21 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.ChunkPreGenerate;
+import org.spongepowered.api.world.ChunkPreGenerate.Builder;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.WorldBorder;
-import org.spongepowered.api.world.WorldBorder.ChunkPreGenerate;
 import org.spongepowered.api.world.storage.WorldProperties;
 
-import com.gmail.trentech.helpme.help.Help;
 import com.gmail.trentech.pjb.Main;
+import com.gmail.trentech.pjc.help.Help;
 
 public class CMDGenerate implements CommandExecutor {
 
-	private static HashMap<String, Task> list = new HashMap<>();
+	private static HashMap<String, ChunkPreGenerate> list = new HashMap<>();
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -62,7 +62,7 @@ public class CMDGenerate implements CommandExecutor {
 
 		WorldBorder border = world.getWorldBorder();
 
-		ChunkPreGenerate generator = border.newChunkPreGenerate(world).owner(Main.getPlugin());
+		Builder generator = border.newChunkPreGenerate(world).owner(Main.getPlugin());
 		
 		if (args.hasAny("verbose")) {
 			generator.logger(Main.instance().getLog());
@@ -80,7 +80,7 @@ public class CMDGenerate implements CommandExecutor {
 			generator.tickPercentLimit(args.<Float> getOne("tickPercent").get());
 		}
 
-		Task task = generator.start();
+		ChunkPreGenerate task = generator.start();
 
 		list.put(worldName, task);
 
@@ -94,7 +94,7 @@ public class CMDGenerate implements CommandExecutor {
 	
 	private AtomicReference<Integer> time = new AtomicReference<Integer>(0);
 	
-	private void status(Task task, String worldName) {
+	private void status(ChunkPreGenerate task, String worldName) {
 		Sponge.getScheduler().createTaskBuilder().delayTicks(100).execute(c -> {
 			if (!Sponge.getScheduler().getScheduledTasks(Main.getPlugin()).contains(task)) {
 				Sponge.getServer().getBroadcastChannel().send(Text.of(TextColors.DARK_GREEN, "Pre-Generator finished for ", worldName));
