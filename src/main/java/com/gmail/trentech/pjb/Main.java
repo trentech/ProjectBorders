@@ -31,7 +31,7 @@ public class Main {
 		plugin = Sponge.getPluginManager().getPlugin(Resource.ID).get();
 		instance = this;
 	}
-	 
+	
 	@Listener
 	public void onInitializationEvent(GameInitializationEvent event) {
 		Sponge.getCommandManager().register(this, new CommandManager().cmdBorder, "border", "b");
