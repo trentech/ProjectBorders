@@ -23,8 +23,14 @@ public class CMDCenter implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+		Help help = Help.get("border center").get();
+		
+		if (args.hasAny("help")) {			
+			help.execute(src);
+			return CommandResult.empty();
+		}
+		
 		if (!args.hasAny("world")) {
-			Help help = Help.get("border center").get();
 			throw new CommandException(Text.builder().onClick(TextActions.executeCallback(help.execute())).append(help.getUsageText()).build(), false);
 		}
 		WorldProperties properties = args.<WorldProperties> getOne("world").get();

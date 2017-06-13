@@ -21,8 +21,14 @@ public class CMDDiameter implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+		Help help = Help.get("border diameter").get();
+		
+		if (args.hasAny("help")) {		
+			help.execute(src);
+			return CommandResult.empty();
+		}
+		
 		if (!args.hasAny("world")) {
-			Help help = Help.get("border diameter").get();
 			throw new CommandException(Text.builder().onClick(TextActions.executeCallback(help.execute())).append(help.getUsageText()).build(), false);
 		}
 		WorldProperties properties = args.<WorldProperties> getOne("world").get();
@@ -37,7 +43,6 @@ public class CMDDiameter implements CommandExecutor {
 		WorldBorder border = world.getWorldBorder();
 
 		if (!args.hasAny("startDiameter")) {
-			Help help = Help.get("border diameter").get();
 			throw new CommandException(Text.builder().onClick(TextActions.executeCallback(help.execute())).append(help.getUsageText()).build(), false);
 		}
 		double startDiameter = args.<Double> getOne("startDiameter").get();

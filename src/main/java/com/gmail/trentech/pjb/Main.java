@@ -9,7 +9,7 @@ import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 
-import com.gmail.trentech.pjb.commands.CommandManager;
+import com.gmail.trentech.pjb.init.Commands;
 import com.gmail.trentech.pjb.init.Common;
 import com.gmail.trentech.pjb.utils.Resource;
 import com.google.inject.Inject;
@@ -34,7 +34,7 @@ public class Main {
 	
 	@Listener
 	public void onInitializationEvent(GameInitializationEvent event) {
-		Sponge.getCommandManager().register(this, new CommandManager().cmdBorder, "border", "b");
+		Sponge.getCommandManager().register(this, new Commands().cmdBorder, "border", "b");
 		
 		Common.initHelp();
 	}
