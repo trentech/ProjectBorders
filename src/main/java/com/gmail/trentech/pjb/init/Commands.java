@@ -1,6 +1,5 @@
 package com.gmail.trentech.pjb.init;
 
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
@@ -15,12 +14,12 @@ import com.gmail.trentech.pjb.commands.CMDWarning;
 
 public class Commands {
 
-	private CommandElement element = GenericArguments.flags().flag("help").setAcceptsArbitraryLongFlags(true).buildWith(GenericArguments.none());
+	//private CommandElement element = GenericArguments.flags().flag("help").setAcceptsArbitraryLongFlags(true).buildWith(GenericArguments.none());
 	
 	private CommandSpec cmdCenter = CommandSpec.builder()
 		    .description(Text.of(" Set the center coordinates of border"))
 		    .permission("pjb.cmd.border.center")
-		    .arguments(element,
+		    .arguments(//element,
 		    		GenericArguments.optional(GenericArguments.world(Text.of("world"))), 
 		    		GenericArguments.optional(GenericArguments.seq(GenericArguments.doubleNum(Text.of("x")), GenericArguments.doubleNum(Text.of("z")))))
 		    .executor(new CMDCenter())
@@ -29,7 +28,7 @@ public class Commands {
 	private CommandSpec cmdDamage = CommandSpec.builder()
 		    .description(Text.of(" Set damage threhold and amount"))
 		    .permission("pjb.cmd.border.damage")
-		    .arguments(element, 
+		    .arguments(//element, 
 		    		GenericArguments.optional(GenericArguments.world(Text.of("world"))), 
 		    		GenericArguments.optional(GenericArguments.doubleNum(Text.of("distance"))), 
 		    		GenericArguments.optional(GenericArguments.doubleNum(Text.of("damage"))))
@@ -39,7 +38,7 @@ public class Commands {
 	private CommandSpec cmdDiameter = CommandSpec.builder()
 		    .description(Text.of(" Set the diameter of the border"))
 		    .permission("pjb.cmd.border.diameter")
-		    .arguments(element, 
+		    .arguments(//element, 
 		    		GenericArguments.optional(GenericArguments.world(Text.of("world"))), 
 		    		GenericArguments.optional(GenericArguments.doubleNum(Text.of("startDiameter"))),
 		    		GenericArguments.optional(GenericArguments.seq(GenericArguments.longNum(Text.of("time")), GenericArguments.optional(GenericArguments.doubleNum(Text.of("endDiameter"))))))
@@ -49,7 +48,7 @@ public class Commands {
 	private CommandSpec cmdGenerate = CommandSpec.builder()
 		    .description(Text.of(" Pre-generate chunks within border"))
 		    .permission("pjb.cmd.border.generate")
-		    .arguments(element,
+		    .arguments(//element,
 		    		GenericArguments.optional(GenericArguments.world(Text.of("world"))), 
 		    		GenericArguments.flags().flag("help", "stop", "verbose").setAcceptsArbitraryLongFlags(true)
 		    		.valueFlag(GenericArguments.integer(Text.of("tickInterval")), "i")
@@ -61,7 +60,7 @@ public class Commands {
 	private CommandSpec cmdWarning = CommandSpec.builder()
 		    .description(Text.of(" Set warning values of border"))
 		    .permission("pjb.cmd.border.warning")
-		    .arguments(element, 
+		    .arguments(//element, 
 		    		GenericArguments.optional(GenericArguments.world(Text.of("world"))), 
 		    		GenericArguments.optional(GenericArguments.integer(Text.of("distance"))),
 		    		GenericArguments.optional(GenericArguments.integer(Text.of("time"))))
@@ -71,7 +70,7 @@ public class Commands {
 	private CommandSpec cmdInfo = CommandSpec.builder()
 		    .description(Text.of(" Shows border information"))
 		    .permission("pjb.cmd.border.info")
-		    .arguments(element, 
+		    .arguments(//element, 
 		    		GenericArguments.optional(GenericArguments.world(Text.of("world"))))
 		    .executor(new CMDInfo())
 		    .build();
