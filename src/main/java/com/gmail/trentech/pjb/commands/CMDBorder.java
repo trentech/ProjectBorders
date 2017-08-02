@@ -15,7 +15,7 @@ public class CMDBorder implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		Help.executeList(src, Help.get("border").get().getChildren());
-		src.sendMessage(Text.of(TextColors.YELLOW, "border <command> --help"));
+		src.sendMessage(Text.of(TextColors.YELLOW, " /helpme border <rawCommand>"));
 		return CommandResult.success();
 	}
 
