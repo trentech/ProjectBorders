@@ -26,6 +26,7 @@ public class CMDGenerate implements CommandExecutor {
 
 	private static HashMap<String, ChunkPreGenerate> list = new HashMap<>();
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		Help help = Help.get("border generate").get();
@@ -100,6 +101,7 @@ public class CMDGenerate implements CommandExecutor {
 	
 	private AtomicReference<Integer> time = new AtomicReference<Integer>(0);
 	
+	@SuppressWarnings("unlikely-arg-type")
 	private void status(ChunkPreGenerate task, String worldName) {
 		Sponge.getScheduler().createTaskBuilder().delayTicks(100).execute(c -> {
 			if (!Sponge.getScheduler().getScheduledTasks(Main.getPlugin()).contains(task)) {
