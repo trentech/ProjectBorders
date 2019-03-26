@@ -1,24 +1,20 @@
 plugins {
-  id "maven"
+  id "org.spongepowered.plugin" version "0.9.0"
   id "ninja.miserable.blossom" version "1.0.1"
   id "signing"
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+compileJava.options.encoding = "UTF-8"
 
 archivesBaseName = "projectborders-${project.apiVersion.split("-")[0]}"
 
+group = project.group
+version = project.version
+description = project.description
+
 repositories {
-    mavenCentral()
-    maven {
-        name "Sponge maven repo"
-        url "http://repo.spongepowered.org/maven"
-    }
-    maven {
-        name "jitpack.io"
-        url "https://jitpack.io"
-    }
+	jcenter()
+	maven { url "https://jitpack.io" }	
 }
 
 blossom {
@@ -31,21 +27,16 @@ blossom {
 	replaceToken "@project.url@", project.url, path
 }
 
-configurations {
-    shade
-    compile.extendsFrom shade
+sponge {
+    plugin {
+        id = "pjb"
+    }
 }
 
 dependencies {
-    compile "com.github.TrenTech:ProjectCore:7.x-SNAPSHOT"
+    implementation "com.github.TrenTech:ProjectCore:7.x-SNAPSHOT"
 }
 
 signing {
     sign configurations.archives
-}
-
-jar {
-    configurations.shade.copyRecursive().setTransitive(false).each { artifact ->
-      from (zipTree(artifact))
-    }
 }
